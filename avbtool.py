@@ -51,6 +51,9 @@ AVB_VBMETA_IMAGE_FLAGS_HASHTREE_DISABLED = 1
 # Configuration for enabling logging of calls to avbtool.
 AVB_INVOCATION_LOGFILE = os.environ.get('AVB_INVOCATION_LOGFILE')
 
+import os
+def random_bytes(size):
+  return os.urandom(size)
 
 class AvbError(Exception):
   """Application-specific errors.
@@ -3461,8 +3464,8 @@ class Avb(object):
         # size as the hash size. Don't populate a random salt if this
         # descriptor is being created to use a persistent digest on device.
         hash_size = digest_size
-        with open('/dev/urandom', 'rb') as f:
-          salt = f.read(hash_size)
+
+        salt = random_bytes(hash_size)
       else:
         salt = b''
 
@@ -3701,8 +3704,8 @@ class Avb(object):
         # size as the hash size. Don't populate a random salt if this
         # descriptor is being created to use a persistent digest on device.
         hash_size = digest_size
-        with open('/dev/urandom', 'rb') as f:
-          salt = f.read(hash_size)
+
+        salt = random_bytes(hash_size)
       else:
         salt = b''
 
